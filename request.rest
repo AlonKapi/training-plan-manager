@@ -1,0 +1,25 @@
+POST http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+    "username": "alon",
+    "password": "1234"
+}
+
+###
+
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    "username": "alon",
+    "password": "1234"
+}
+
+###
+
+GET http://localhost:3000/users/logout
+
+###
+
+GET http://localhost:3000/users/isLoggedIn

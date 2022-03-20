@@ -9,22 +9,18 @@ const dbFileName = 'db.json';
 const file = join(__dirname, dbFileName);
 const adapter = new JSONFile(file);
 const db = new Low(adapter);
-let initialized = false;
 
-export default async () => {
-	// Initialize once when the server starts
-    if (!initialized) {
-		// Read data from JSON file, this will set db.data content
-		await db.read();
+export const initializeDB = async () => {
+	// Read data from JSON file, this will set db.data content
+	await db.read();
 
-		// Initialize json db
-		if (!db.data) {
-			db.data = { users: [], users_training_sessions: [] };
-			await db.write();
-		}
-
-		initialized = true;
+	// Initialize json db
+	if (!db.data) {
+		db.data = { users: [], users_training_sessions: [] };
+		await db.write();
 	}
+};
 
+export const getDB = () => {
 	return db;
 };

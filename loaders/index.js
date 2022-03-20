@@ -1,8 +1,8 @@
 import expressLoader from './express.js';
-import lowdbLoader from './lowdb.js';
+import { initializeDB } from './lowdb.js';
 
 export default async ({ expressApp }) => {
-    await lowdbLoader();
+    await initializeDB();
     console.log('LowDB Initialized');
 
     await expressLoader({ app: expressApp });
