@@ -1,81 +1,56 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+  import axios from 'axios';
+  import LoginForm from './components/LoginForm.vue';
+  import LoggedInHeader from './components/LoggedInHeader.vue';
+  import TrainingPlan from './components/TrainingPlan.vue';
+
+  export default {
+    components: {
+      LoginForm,
+      LoggedInHeader,
+      TrainingPlan
+    },
+    methods: {
+      logIn(email) {
+        this.isLoggedIn = true;
+        this.email = email;
+      },
+      logOut() {
+        this.isLoggedIn = false;
+        this.email = '';
+      }
+    },
+    data() {
+      return {
+        isLoggedIn: false,
+        email: ''
+      }
+    },
+    mounted() {
+      axios.get(`${import.meta.env.VITE_APIURL}/users/silentlogin`, { withCredentials: true })
+      .then(response => {
+        this.isLoggedIn = true
+        this.email = response.data.email;
+      })
+      .catch(() => {});
+    }
+  }
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <LoginForm @loggedIn="logIn" v-if="!isLoggedIn" />
+  <LoggedInHeader @loggedOut="logOut" v-if="isLoggedIn" />
+  <TrainingPlan v-if="isLoggedIn" />
 </template>
 
 <style>
-@import './assets/base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+  @import './assets/base.css';
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
   }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-}
 </style>

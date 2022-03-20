@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getUserByEmail, loginUser, registerUser } from '../../services/user.js';
+import { checkLoggedIn } from '../../middleware/auth.js';
 const route = Router();
 
 export default (app) => {
@@ -49,16 +50,15 @@ export default (app) => {
         }
     });
 
-    route.get('/logout', (req, res) => {
-        console.log(req.session);
-        if (req.session.email) {
-            console.log(`Logging out user ${req.session.email}`);
-            req.session.destroy(() => {
-                console.log('session destroyed');
-            });
-            return res.sendStatus(200);
-        }
-        
-        return res.sendStatus(400);
+    route.get('/logout', checkLoggedIn, (req, res) => {
+        console.log(`Logging out user ${req.session.email}`);
+        req.session.destroy(() => {
+            console.log('session destroyed');
+        });
+        return res.sendStatus(200);
+    });
+
+    route.get('/silentlogin', checkLoggedIn, (req, res) => {
+        return res.status(200).json({ email: req.loggedInUser });
     });
 };

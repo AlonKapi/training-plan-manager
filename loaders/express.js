@@ -9,7 +9,10 @@ const oneDay = 1000 * 60 * 60 * 24;
 export default async ({app}) => {
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
-	app.use(cors());
+	app.use(cors({
+		origin: 'http://localhost:3000',
+		credentials: true
+	}));
 	app.use(cookieParser());
 
     // Set session details
