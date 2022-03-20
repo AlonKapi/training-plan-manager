@@ -1,37 +1,37 @@
 import { randomUUID } from 'crypto';
 import {getDBUserTrainingSessions, insertDBUserTrainingSessions, updateDBUserTrainingSessions} from '../models/training.js';
 
-export const getUserTrainingSessions = async (username) => {
-    let userTrainingSessions = await getDBUserTrainingSessions(username);
-
-    if (!userTrainingSessions) {
-        userTrainingSessions = await insertDBUserTrainingSessions(username, getDefaultTrainingSessions());
-    }
-
-    console.log(`Got results ${JSON.stringify(userTrainingSessions)}`);
-    return userTrainingSessions;
-};
-
-export const createNewUserTrainingSession = async (username, trainingSession) => {
-    let userTrainingSessions = await getDBUserTrainingSessions(username);
-
-    if (!userTrainingSessions) {
-        throw new Error(`No training sessions found for user ${username}`);
-    }
-
-    console.log(`Inserting training session ${JSON.stringify(trainingSession)} for user ${username}`);
-
-	trainingSession.id = randomUUID();
-    trainingSession.isCompleted = false;
-    userTrainingSessions.bankSessions.push(trainingSession);
-    return await updateDBUserTrainingSessions(userTrainingSessions);
-};
-
-export const updateUserTrainingSessions = async (username, trainingPlan, bankSessions) => {
-	let userTrainingSessions = await getDBUserTrainingSessions(username);
+export const getUserTrainingSessions = async (email) => {
+	let userTrainingSessions = await getDBUserTrainingSessions(email);
 
 	if (!userTrainingSessions) {
-		throw new Error(`No training sessions found for user ${username}`);
+		userTrainingSessions = await insertDBUserTrainingSessions(email, getDefaultTrainingSessions());
+	}
+
+	console.log(`Got results ${JSON.stringify(userTrainingSessions)}`);
+	return userTrainingSessions;
+};
+
+export const createNewUserTrainingSession = async (email, trainingSession) => {
+	let userTrainingSessions = await getDBUserTrainingSessions(email);
+
+	if (!userTrainingSessions) {
+		throw new Error(`No training sessions found for user ${email}`);
+	}
+
+	console.log(`Inserting training session ${JSON.stringify(trainingSession)} for user ${email}`);
+
+	trainingSession.id = randomUUID();
+	trainingSession.isCompleted = false;
+	userTrainingSessions.bankSessions.push(trainingSession);
+	return await updateDBUserTrainingSessions(userTrainingSessions);
+};
+
+export const updateUserTrainingSessions = async (email, trainingPlan, bankSessions) => {
+	let userTrainingSessions = await getDBUserTrainingSessions(email);
+
+	if (!userTrainingSessions) {
+		throw new Error(`No training sessions found for user ${email}`);
 	}
 
 	userTrainingSessions.trainingPlan = trainingPlan || [];
@@ -39,14 +39,14 @@ export const updateUserTrainingSessions = async (username, trainingPlan, bankSes
 	return await updateDBUserTrainingSessions(userTrainingSessions);
 };
 
-export const updateUserTrainingSession = async (username, requestTrainingSession) => {
-    let userTrainingSessions = await getDBUserTrainingSessions(username);
+export const updateUserTrainingSession = async (email, requestTrainingSession) => {
+	let userTrainingSessions = await getDBUserTrainingSessions(email);
 
 	if (!userTrainingSessions) {
-		throw new Error(`No training sessions found for user ${username}`);
+		throw new Error(`No training sessions found for user ${email}`);
 	}
 
-	console.log(`Updating training session ${JSON.stringify(requestTrainingSession)} for user ${username}`);
+	console.log(`Updating training session ${JSON.stringify(requestTrainingSession)} for user ${email}`);
 	let updatedTrainingSession;
 
 	const updatedPlanSessions = userTrainingSessions.trainingPlan.map((trainingSession) => {
@@ -62,21 +62,21 @@ export const updateUserTrainingSession = async (username, requestTrainingSession
 		userTrainingSessions.trainingPlan = updatedPlanSessions;
 		userTrainingSessions = await updateDBUserTrainingSessions(userTrainingSessions);
 	}
-	
+
 	return updatedTrainingSession;
 };
 
-export const deleteUserTrainingSession = async (username, trainingSessionId) => {
-	let userTrainingSessions = await getDBUserTrainingSessions(username);
+export const deleteUserTrainingSession = async (email, trainingSessionId) => {
+	let userTrainingSessions = await getDBUserTrainingSessions(email);
 
 	if (!userTrainingSessions) {
-		throw new Error(`No training sessions found for user ${username}`);
+		throw new Error(`No training sessions found for user ${email}`);
 	}
 
-	console.log(`Deleting training session ${JSON.stringify(trainingSessionId)} for user ${username}`);
+	console.log(`Deleting training session ${JSON.stringify(trainingSessionId)} for user ${email}`);
 	let deletedTrainingSession;
 
-	const updatedBankSessions = userTrainingSessions.bankSessions.filter(trainingSession => {
+	const updatedBankSessions = userTrainingSessions.bankSessions.filter((trainingSession) => {
 		if (trainingSession.id !== trainingSessionId) {
 			return true;
 		}
