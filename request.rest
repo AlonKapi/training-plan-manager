@@ -1,25 +1,83 @@
+### Register a user
+
 POST http://localhost:3000/users/register
 Content-Type: application/json
 
 {
-    "username": "alon",
-    "password": "1234"
+    "username": "boris",
+    "password": "4321"
 }
 
-###
+### Login a user
 
 POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-    "username": "alon",
-    "password": "1234"
+    "username": "boris",
+    "password": "4321"
 }
 
-###
+### Logout a user
 
 GET http://localhost:3000/users/logout
 
-###
+### Get a user training sessions
 
-GET http://localhost:3000/users/isLoggedIn
+GET http://localhost:3000/training
+
+### Create a user training session
+
+POST http://localhost:3000/training
+Content-Type: application/json
+
+{
+    "title": "Test Title 2",
+    "description": "Test description 2"
+}
+
+### Update a user training plan and bank
+PUT http://localhost:3000/training
+Content-Type: application/json
+
+{
+  "trainingPlan": [
+    {
+      "id": "83bf8d33-909e-47c1-8b76-940ee21d3b92",
+      "title": "Example Title 3",
+      "description": "Example Description 3",
+      "isCompleted": false
+    }
+  ],
+  "bankSessions": [
+    {
+      "id": "640b08d3-5f30-4cd2-9ca6-01c1f5a72cde",
+      "title": "Example Title 1",
+      "description": "Example Description 1",
+      "isCompleted": false
+    },
+    {
+      "id": "20294106-f7c2-4f0a-8cb3-8d952ca2d71c",
+      "title": "Example Title 4",
+      "description": "Example Description 4",
+      "isCompleted": false
+    },
+    {
+      "id": "e3119520-5ad2-450b-8f2c-99288bda7654",
+      "title": "Example Title 5",
+      "description": "Example Description 5",
+      "isCompleted": false
+    }
+  ]
+}
+
+### Update a user training session
+PUT http://localhost:3000/training/83bf8d33-909e-47c1-8b76-940ee21d3b92
+Content-Type: application/json
+
+{
+    "isCompleted": true
+}
+
+### Delete a user training session
+DELETE http://localhost:3000/training/e3119520-5ad2-450b-8f2c-99288bda7654

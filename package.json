@@ -5,7 +5,8 @@
 	"type": "module",
 	"exports": "./app.js",
 	"scripts": {
-		"devStart": "nodemon --ignore 'db.json' app.js"
+		"devStart": "nodemon app.js --ignore 'db.json'",
+		"start": "node app.js"
 	},
 	"author": "",
 	"license": "ISC",

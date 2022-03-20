@@ -7,7 +7,7 @@ export const getDBUserByName = async (username) => {
 
 export const insertUserToDB = async (username, password) => {
     const user = {username, password};
-    console.log(`Inserting new user ${user}`);
+    console.log(`Inserting new user ${JSON.stringify(user)}`);
 
     await getDB().data.users.push(user);
     await getDB().write();

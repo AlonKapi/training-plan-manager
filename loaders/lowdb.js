@@ -22,5 +22,8 @@ export const initializeDB = async () => {
 };
 
 export const getDB = () => {
+	if (!db) {
+		throw new Error('LowDB was not initialized!');
+	}
 	return db;
 };
