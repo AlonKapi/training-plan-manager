@@ -24,7 +24,8 @@ export const createNewUserTrainingSession = async (email, trainingSession) => {
 	trainingSession.id = randomUUID();
 	trainingSession.isCompleted = false;
 	userTrainingSessions.bankSessions.push(trainingSession);
-	return await updateDBUserTrainingSessions(userTrainingSessions);
+	await updateDBUserTrainingSessions(userTrainingSessions);
+	return trainingSession;
 };
 
 export const updateUserTrainingSessions = async (email, trainingPlan, bankSessions) => {

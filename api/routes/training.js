@@ -24,8 +24,8 @@ export default (app) => {
 
 	route.post('/', validateCreateTrainingSession, async (req, res) => {
 		try {
-			const userTrainingSessions = await createNewUserTrainingSession(req.loggedInUser, req.trainingSession);
-			return res.status(200).json(userTrainingSessions);
+			const createdTrainingSession = await createNewUserTrainingSession(req.loggedInUser, req.trainingSession);
+			return res.status(200).json(createdTrainingSession);
 		} catch (error) {
 			console.log(error);
 			return res.sendStatus(500);
