@@ -72,11 +72,11 @@ Content-Type: application/json
 }
 
 ### Update a user training session
-PUT http://localhost:3001/training/83bf8d33-909e-47c1-8b76-940ee21d3b92
+PUT http://localhost:3001/training/dc54d8ee-bf04-4a84-82ef-4d6ed2bb94be
 Content-Type: application/json
 
 {
-    "isCompleted": true
+    "isCompleted": false
 }
 
 ### Delete a user training session

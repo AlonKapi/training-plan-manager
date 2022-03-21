@@ -1,10 +1,12 @@
 <script>
+    import draggable from 'vuedraggable'
     import axios from 'axios';
     import TrainingSession from './TrainingSession.vue';
 
     export default {
         components: {
-            TrainingSession
+            TrainingSession,
+            draggable
         },
         data() {
             return {
@@ -86,6 +88,15 @@
                 } catch (error) {
                     console.log(error);
                 }
+            },
+            async handleDragEvent(e) {
+                if (e.removed || e.moved) {
+                    try {
+                        await axios.put(`${import.meta.env.VITE_APIURL}/training`, {trainingPlan: this.trainingPlan, bankSessions: this.bankSessions}, { withCredentials: true });
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
             }
         },
         mounted() {
@@ -113,37 +124,49 @@
                     <button class="simple-btn" @click="handleClearTrainingPlan">Clear training plan</button>
                 </div>
                 <div class="sessions-list">
-                    <ul>
-                        <li v-for="session in trainingPlan" :key="session.id">
+                    <draggable
+                        class="draggable-list"
+                        :list="trainingPlan"
+                        itemKey="id"
+                        group="sessions"
+                        @change="handleDragEvent"
+                    >
+                        <template #item="{ element }">
                             <TrainingSession 
-                                :id="session.id"
-                                :title="session.title"
-                                :description="session.description"
-                                :isCompleted="session.isCompleted" 
+                                :id="element.id"
+                                :title="element.title"
+                                :description="element.description"
+                                :isCompleted="element.isCompleted" 
                                 :type="'plan'"
                                 @markCompleted="handleMarkCompleted"
                                 @remove="handleRemoveFromPlan"
                             />
-                        </li>
-                    </ul>
+                        </template>
+                    </draggable>
                 </div>
             </div>
             <div class="training-bank-container">
                 <h4>Training session bank:</h4>
                 <div class="sessions-list">
-                    <ul>
-                        <li v-for="session in bankSessions" :key="session.id">
+                    <draggable
+                        class="draggable-list"
+                        :list="bankSessions"
+                        itemKey="id"
+                        group="sessions"
+                        @change="handleDragEvent"
+                    >
+                        <template #item="{ element }">
                             <TrainingSession 
-                                :id="session.id"
-                                :title="session.title"
-                                :description="session.description"
-                                :isCompleted="session.isCompleted"
+                                :id="element.id"
+                                :title="element.title"
+                                :description="element.description"
+                                :isCompleted="element.isCompleted" 
                                 :type="'bank'"
                                 @addToPlan="handleAddToPlan"
                                 @remove="handleRemoveFromBank"
                             />
-                        </li>
-                    </ul>
+                        </template>
+                    </draggable>
                 </div>
             </div>
         </div>

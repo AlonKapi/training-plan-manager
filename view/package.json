@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.26.1",
     "vue": "^3.2.31",
-    "vue-draggable-next": "^2.1.1"
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.2",

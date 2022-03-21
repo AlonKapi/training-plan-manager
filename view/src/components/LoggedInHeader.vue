@@ -2,6 +2,7 @@
     import axios from 'axios';
     
     export default {
+        props: ['email'],
         emits: ['loggedOut'],
         methods: {
             handleSignOut() {
@@ -19,7 +20,7 @@
     <header class="logged-in-header">
         <h1>NOVOS</h1>
         <div class="details">
-            <p>Signed in as boris@gmail.com</p>
+            <p>Signed in as {{email}}</p>
             <p>|</p>
             <p class="sign-out" @click="handleSignOut">Sign Out</p>
         </div>

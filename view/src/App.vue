@@ -39,7 +39,7 @@
 
 <template>
   <LoginForm @loggedIn="logIn" v-if="!isLoggedIn" />
-  <LoggedInHeader @loggedOut="logOut" v-if="isLoggedIn" />
+  <LoggedInHeader @loggedOut="logOut" :email="email" v-if="isLoggedIn" />
   <TrainingPlan v-if="isLoggedIn" />
 </template>
 
