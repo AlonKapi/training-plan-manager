@@ -18,7 +18,7 @@ export default async ({app}) => {
     // Set session details
 	app.use(
 		sessions({
-			secret: process.env.SESSION_SECRET || 'devsessionsecret',
+			secret: process.env.SESSION_SECRET || 'this is a secret',
 			saveUninitialized: true,
 			cookie: { maxAge: oneDay },
 			resave: false,
